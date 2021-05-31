@@ -80,9 +80,13 @@ const usuariosDelete =   async (req, res = response ) => {
     //const usuario =  await Usuario.findByIdAndDelete( id );
 
     const usuario = await Usuario.findByIdAndUpdate(id , {estado: false} );
+    //const usuarioAutenticado = req.usuario;
+
 
     res.json({
-        msg: `El usuario ${usuario.nombre} ha sido borrado o suspendido`
+        msg: `El usuario ${usuario.nombre} ha sido borrado o suspendido`,
+        usuario
+        //usuarioAutenticado
     });
 }
 
