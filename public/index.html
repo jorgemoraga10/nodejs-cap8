@@ -4,9 +4,70 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Denegado</title>
+    <title>Google Sign-in</title>
+    
+    <meta name="google-signin-client_id" content="129215963200-qgurp81p55em2hfb77rcbpn7nqng2hll.apps.googleusercontent.com">
+
 </head>
 <body>
-            <h1>ACCESO DENEGADO</h1>
+        <h1>Google Sign-in</h1>
+        <hr><br>
+
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+        <a href="#" onclick="signOut();">Sign out</a>
+
+
+
+        <!-- SCRIPT DE GOOGLE API -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+        <script>
+            //SI EL HOST NAME ESTA EN DESARROLLO MANDO LA RUTA DE LOCALHOST, CONTRARIO DE HEROKU
+            var url = ( window.location.hostname.includes('localhost') )
+                        ? 'http://localhost:8080/api/auth/google'
+                        : 'https://node-restserver-cap8y9.herokuapp.com';
+
+
+            //FUNCION DE LOGEO PROPIA DE GOOGLE 
+            function onSignIn(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                console.log('Name: ' + profile.getName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+                
+
+
+                //METODO PARA CREAR UN TOKEN PROPIO DE GOOGLE
+                var id_token = googleUser.getAuthResponse().id_token;
+                const data = { id_token }
+            
+
+
+                //PETICION POST CON FETCH
+                fetch( url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify( data ) 
+                })
+                //disparando las promesas
+                .then( resp => resp.json() )            
+                .then( data => console.log('Nuestro Server', data))    
+                .catch( console.log );
+            }
+
+
+
+            //FUNCION PARA HACER EL DESLOGEO PROPIA DEL SCRIPT DE GOOGLE
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                console.log('User signed out.');
+                });
+            }
+
+
+        </script>
 </body>
 </html>

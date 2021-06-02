@@ -4,14 +4,13 @@ const { Router} = require('express');
 const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
-const { login } = require('../controllers/auth');
+
+const { login, googleSignin } = require('../controllers/auth');
 
 
 
 
 const router = Router();
-
-
 
 
 router.post('/login',[
@@ -21,6 +20,12 @@ router.post('/login',[
 ],login );
 
 
+
+//GENERANDO EL ROUTER PARA EL LOGIN DE GOOGLE 
+router.post('/google',[
+    check('id_token','El id token es necesario').not().isEmpty(),  //VALIDO QUE TOKEN NO SEA NULL
+    validarCampos
+],googleSignin );
 
 
 
