@@ -49,11 +49,11 @@
                 fetch( url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
-                    body: JSON.stringify( data ) 
+                    body: JSON.stringify(data) 
                 })
                 //disparando las promesas
                 .then( resp => resp.json() )            
-                .then( data => console.log('Nuestro Server', data))    
+                .then( data => console.log('Nuestro Server', body))    
                 .catch( console.log );
             }
 
