@@ -23,10 +23,11 @@
         <script src="https://apis.google.com/js/platform.js" async defer></script>
 
         <script>
+            console.log( window.location.hostname.includes('localhost') )
             //SI EL HOST NAME ESTA EN DESARROLLO MANDO LA RUTA DE LOCALHOST, CONTRARIO DE HEROKU
             var url = ( window.location.hostname.includes('localhost') )
                         ? 'http://localhost:8080/api/auth/google'
-                        : 'https://node-restserver-cap8y9.herokuapp.com';
+                        : 'https://node-restserver-cap8y9.herokuapp.com/api/auth/google';
 
 
             //FUNCION DE LOGEO PROPIA DE GOOGLE 
@@ -49,7 +50,7 @@
                 fetch( url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
-                    body: JSON.stringify(data) 
+                    body: JSON.stringify(  data ) 
                 })
                 //disparando las promesas
                 .then( resp => resp.json() )            
